@@ -1,24 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import QuestionsContext from "./components/QuestionsContext";
+import Login from "./components/Login";
+import Header from "./components/Header";
+import QuestionsList from "./components/QuestionsList";
+import QuestionPage from "./components/QuestionPage";
 
 function App() {
+  const [questions, setQuestions] = useState([]);
+  const [questionsChanged, setQuestionsChanged] = useState(false);
+
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:7000/api/question`)
+      .then((res) => {
+        setQuestionsChanged(false);
+        setQuestions(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [questionsChanged]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <QuestionsContext.Provider value={{ questions, setQuestions ,setQuestionsChanged }}>
+        <Header />
+        <Routes>
+          <Route path="/" exact element={<QuestionsList />}></Route>
+          <Route path="/question" exact element={<QuestionsList />}></Route>
+          <Route path="/question/:id" element={<QuestionPage />}></Route>
+        </Routes>
+      </QuestionsContext.Provider>
+    </BrowserRouter>
   );
 }
 
