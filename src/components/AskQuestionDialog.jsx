@@ -10,6 +10,7 @@ const AskQuestionDialog = (props) => {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState([]);
   const { setQuestionsChanged } = useContext(QuestionsContext);
+  const token = localStorage.getItem("token");
 
   if (!props.show) {
     return null;
@@ -18,11 +19,17 @@ const AskQuestionDialog = (props) => {
   const onSubmitHandler = (event) => {
     event.preventDefault();
     axios
-      .post(`http://localhost:7000/api/question`, {
-        content: content,
-        title: title,
-        tags: tags,
-      })
+      .post(
+        `http://localhost:7000/api/question`,
+        {
+          content: content,
+          title: title,
+          tags: tags,
+        },
+        {
+          headers: { Authorization: token },
+        }
+      )
       .then(function (response) {
         setQuestionsChanged(true);
       })

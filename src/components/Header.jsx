@@ -3,18 +3,24 @@ import logo from "../pictures/LOGO-05.png";
 import Logout from "./Logout";
 import AskQuestionDialog from "./AskQuestionDialog";
 import "./css-components/Header.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import QuestionsContext from "./QuestionsContext";
+import { useContext } from "react";
 
 const Header = () => {
-  const [search, setSearch] = useState("");
   const [showAskQuestionDialog, setShowAskQuestionDialog] = useState(false);
+  const { setSearch } = useContext(QuestionsContext);
+  let navigate = useNavigate();
 
-  let searchDebounce;
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      onSearch(event.target.value);
+    }
+  };
+
   const onSearch = (val) => {
-    clearTimeout(searchDebounce);
-    searchDebounce = setTimeout(async () => {
-      setSearch(val);
-    }, 300);
+    setSearch(val);
+    navigate("/");
   };
   return (
     <div>
@@ -22,12 +28,12 @@ const Header = () => {
         <Link className="iv-link" to={"/"}>
           <img className="iv-bar-logo" src={logo} alt="Logo" />
         </Link>
-        <div className="xx">
+        <div className="center-header-items">
           <input
             className="search"
             type="search"
             placeholder="Search..."
-            onChange={(e) => onSearch(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
           <button
             className="btn-ask-question"

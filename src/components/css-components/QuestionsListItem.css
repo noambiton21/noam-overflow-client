@@ -1,5 +1,14 @@
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.questions-box {
+  margin: 15;
+  padding: 0;
+}
 .question {
-  max-width: 600px;
+  width: 100%;
   margin: 0 auto;
   border-radius: 8px;
   background-color: #fff;
@@ -11,6 +20,7 @@
   border: 1px solid #fff;
   text-align: left;
   position: relative;
+  padding: 10px 20px;
 }
 
 .tag-frame {
@@ -42,9 +52,8 @@
 }
 
 .created-details {
-  display: inline-block;
   vertical-align: middle;
-  margin-left: 60%;
+  float: right;
 }
 
 .question-title {

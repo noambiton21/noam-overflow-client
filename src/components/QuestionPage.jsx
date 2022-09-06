@@ -14,10 +14,13 @@ const QuestionPage = () => {
   const [answerText, setAnswerText] = useState("");
   const [newAnswer, setNewAnswer] = useState(false);
   const { setQuestionsChanged } = useContext(QuestionsContext);
+  let token = localStorage.getItem("token");
 
   useEffect(() => {
     axios
-      .get(`http://localhost:7000/api/question/${params.id}`)
+      .get(`http://localhost:7000/api/question/${params.id}`, {
+        headers: { Authorization: token },
+      })
       .then((res) => {
         setNewAnswer(false);
         setQuestion(res.data);
@@ -29,11 +32,18 @@ const QuestionPage = () => {
 
   const answerSubmitHandler = (event) => {
     event.preventDefault();
+    console.log(token);
     axios
-      .post(`http://localhost:7000/api/answer`, {
-        content: answerText,
-        questionId: params.id,
-      })
+      .post(
+        `http://localhost:7000/api/answer`,
+        {
+          content: answerText,
+          questionId: params.id,
+        },
+        {
+          headers: { Authorization: token },
+        }
+      )
       .then(function (response) {
         if (response.status === 201) {
           setNewAnswer(true);
@@ -66,11 +76,15 @@ const QuestionPage = () => {
 
       <div>
         <h2 className="answer">Answers</h2>
-        {question.answers?.map((answer) => (
-          <div key={answer._id}>
-            <QuestionAnswer answer={answer} />
-          </div>
-        ))}
+        {question.answers
+          ?.sort((a, b) => {
+            return b.score - a.score;
+          })
+          .map((answer) => (
+            <div key={answer._id}>
+              <QuestionAnswer answer={answer} />
+            </div>
+          ))}
         <hr className="divider"></hr>
         <textarea
           id="answer-input"

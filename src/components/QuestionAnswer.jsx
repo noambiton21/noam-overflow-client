@@ -6,14 +6,21 @@ import { useState } from "react";
 
 const QuestionAnswer = (props) => {
   const [answer, setAnswer] = useState(props.answer);
+  let token = localStorage.getItem("token");
 
   const updateScore = (score) => {
     axios
-      .post(`http://localhost:7000/api/score`, {
-        answerId: answer._id,
-        userId: "63151c7b76e60b91412a79b5",
-        newScore: score,
-      })
+      .post(
+        `http://localhost:7000/api/score`,
+        {
+          answerId: answer._id,
+          userId: "63151c7b76e60b91412a79b5",
+          newScore: score,
+        },
+        {
+          headers: { Authorization: token },
+        }
+      )
       .then(function (response) {
         setAnswer({ ...answer, score: score });
       })

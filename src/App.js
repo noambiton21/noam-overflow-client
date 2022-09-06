@@ -1,42 +1,12 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import QuestionsContext from "./components/QuestionsContext";
 import Login from "./components/Login";
-import Header from "./components/Header";
-import QuestionsList from "./components/QuestionsList";
-import QuestionPage from "./components/QuestionPage";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 function App() {
-  const [questions, setQuestions] = useState([]);
-  const [questionsChanged, setQuestionsChanged] = useState(false);
+  const [isAuth, setIsAuth] = useState(!!localStorage.getItem("token"));
 
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:7000/api/question`)
-      .then((res) => {
-        setQuestionsChanged(false);
-        setQuestions(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [questionsChanged]);
-
-  return (
-    <BrowserRouter>
-      <QuestionsContext.Provider value={{ questions, setQuestions ,setQuestionsChanged }}>
-        <Header />
-        <Routes>
-          <Route path="/" exact element={<QuestionsList />}></Route>
-          <Route path="/question" exact element={<QuestionsList />}></Route>
-          <Route path="/question/:id" element={<QuestionPage />}></Route>
-        </Routes>
-      </QuestionsContext.Provider>
-    </BrowserRouter>
-  );
+  return <>{isAuth ? <ProtectedRoutes /> : <Login setIsAuth={setIsAuth} />}</>;
 }
 
 export default App;

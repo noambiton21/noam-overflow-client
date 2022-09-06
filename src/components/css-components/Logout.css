@@ -1,5 +1,4 @@
 .btn-logout {
-  display: inline-block;
   margin-right: 10px;
   margin-top: 10px;
   background-color: #fafbfc;
@@ -10,13 +9,13 @@
   box-sizing: border-box;
   color: #24292e;
   cursor: pointer;
-  display: inline-block;
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 14px;
   font-weight: 500;
   padding: 6px 16px;
   height: 40px;
+  float: right;
 }
 
 .btn-logout:hover {
