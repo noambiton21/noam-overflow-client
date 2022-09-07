@@ -4,6 +4,8 @@ import axios from "axios";
 import exitIcon from "../pictures/x-symbol-svgrepo-com.svg";
 import QuestionsContext from "./QuestionsContext";
 import { useContext } from "react";
+import { createApiClient } from "../api";
+const api = createApiClient();
 
 const AskQuestionDialog = (props) => {
   const [title, setTitle] = useState("");
@@ -18,22 +20,11 @@ const AskQuestionDialog = (props) => {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    axios
-      .post(
-        `http://localhost:7000/api/question`,
-        {
-          content: content,
-          title: title,
-          tags: tags,
-        },
-        {
-          headers: { Authorization: token },
-        }
-      )
-      .then(function (response) {
-        setQuestionsChanged(true);
-      })
-      .catch(function (error) {});
+    async function postQuestion() {
+      api.addQuestion(content, title, tags);
+      setQuestionsChanged(true);
+    }
+    postQuestion();
     props.onClose();
   };
 

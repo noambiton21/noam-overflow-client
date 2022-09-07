@@ -2,26 +2,21 @@ import React, { useState } from "react";
 import logo from "../pictures/LOGO-05.png";
 import "./css-components/Login.css";
 import axios from "axios";
+import { createApiClient } from "../api";
+const api = createApiClient();
+
 const Login = ({ setIsAuth }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   async function handleSubmit(event) {
     event.preventDefault();
-    axios
-      .post(`http://localhost:7000/login`, {
-        email,
-        password,
-      })
-      .then(function (response) {
-        if (response.status === 200) {
-          localStorage.setItem("token", response.data.data);
-          setIsAuth(true);
-        }
-      })
-      .catch(function (error) {
-        alert(error);
-      });
+    async function loginPost() {
+      api.loginUser(email, password);
+      setIsAuth(true);
+      window.location.href = "/";
+    }
+    loginPost();
   }
   return (
     <form className="login-form">

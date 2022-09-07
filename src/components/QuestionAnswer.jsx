@@ -1,32 +1,19 @@
 import React from "react";
 import arrow from "../pictures/up-arrow-svgrepo-com.svg";
 import formatDate from "./formatDate";
-import axios from "axios";
 import { useState } from "react";
+import { createApiClient } from "../api";
+const api = createApiClient();
 
 const QuestionAnswer = (props) => {
   const [answer, setAnswer] = useState(props.answer);
-  let token = localStorage.getItem("token");
 
   const updateScore = (score) => {
-    axios
-      .post(
-        `http://localhost:7000/api/score`,
-        {
-          answerId: answer._id,
-          userId: "63151c7b76e60b91412a79b5",
-          newScore: score,
-        },
-        {
-          headers: { Authorization: token },
-        }
-      )
-      .then(function (response) {
-        setAnswer({ ...answer, score: score });
-      })
-      .catch(function (error) {
-        alert(error);
-      });
+    async function addScore() {
+      api.loginUser(answer._id, "63151c7b76e60b91412a79b5", score);
+      setAnswer({ ...answer, score: score });
+    }
+    addScore();
   };
 
   const addScoreHandler = (event) => {

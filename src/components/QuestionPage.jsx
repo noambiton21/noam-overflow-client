@@ -7,6 +7,8 @@ import { useParams } from "react-router-dom";
 import formatDate from "./formatDate";
 import QuestionsContext from "./QuestionsContext";
 import { useContext } from "react";
+import { createApiClient } from "../api";
+const api = createApiClient();
 
 const QuestionPage = () => {
   const params = useParams();
@@ -17,42 +19,22 @@ const QuestionPage = () => {
   let token = localStorage.getItem("token");
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:7000/api/question/${params.id}`, {
-        headers: { Authorization: token },
-      })
-      .then((res) => {
-        setNewAnswer(false);
-        setQuestion(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    async function fetchQuestion() {
+      const questionFetched = await api.getQuestion(params.id);
+      setQuestion(questionFetched);
+    }
+    setNewAnswer(false);
+    fetchQuestion();
   }, [params.id, newAnswer]);
 
   const answerSubmitHandler = (event) => {
     event.preventDefault();
-    console.log(token);
-    axios
-      .post(
-        `http://localhost:7000/api/answer`,
-        {
-          content: answerText,
-          questionId: params.id,
-        },
-        {
-          headers: { Authorization: token },
-        }
-      )
-      .then(function (response) {
-        if (response.status === 201) {
-          setNewAnswer(true);
-          setQuestionsChanged(true);
-        }
-      })
-      .catch(function (error) {
-        alert(error);
-      });
+    async function postAnswer() {
+      api.addAnswer(answerText, params.id);
+      setNewAnswer(true);
+      setQuestionsChanged(true);
+    }
+    postAnswer();
     document.getElementById("answer-input").value = "";
   };
 
