@@ -10,7 +10,7 @@ const QuestionAnswer = (props) => {
 
   const updateScore = (score) => {
     async function addScore() {
-      api.loginUser(answer._id, "63151c7b76e60b91412a79b5", score);
+      api.addScore(answer._id, score);
       setAnswer({ ...answer, score: score });
     }
     addScore();

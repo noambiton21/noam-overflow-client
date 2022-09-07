@@ -75,14 +75,13 @@ export const createApiClient = () => {
           alert(error);
         });
     },
-    addScore: async (answerId, createdBy, newScore) => {
+    addScore: async (answerId, newScore) => {
       const token = localStorage.getItem("token");
       return axios
         .post(
           `http://localhost:7000/api/score`,
           {
             answerId,
-            createdBy,
             newScore,
           },
           {
