@@ -32,7 +32,7 @@ const ProtectedRoutes = () => {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" exact element={<QuestionsList />}></Route>
+          <Route path="/" element={<QuestionsList />}></Route>
           <Route path="/question/:id" element={<QuestionPage />}></Route>
         </Routes>
       </BrowserRouter>

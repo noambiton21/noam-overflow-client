@@ -32,7 +32,7 @@ const QuestionsListItem = (props) => {
       <div>
         <div className="created-details">
           <div>asked {formatDate(question.createdAt)}</div>
-          <div>by {question.createdBy} </div>
+          <div>by {question.createdByEmail} </div>
         </div>
       </div>
     </div>

@@ -66,11 +66,7 @@ export const createApiClient = () => {
           email,
           password,
         })
-        .then(function (response) {
-          if (response.status === 200) {
-            localStorage.setItem("token", response.data.data);
-          }
-        })
+        .then((res) => res)
         .catch(function (error) {
           alert(error);
         });
@@ -88,10 +84,16 @@ export const createApiClient = () => {
             headers: { Authorization: token },
           }
         )
-        .then(function (response) {})
-        .catch(function (error) {
-          alert(error);
+        .then((res) => res.status)
+        .catch((err) => {
+          console.log(err);
         });
     },
   };
 };
+
+// then((response) => {
+//   if (response.status === 200) {
+//     localStorage.setItem("token", response.data.data);
+//   }
+// })

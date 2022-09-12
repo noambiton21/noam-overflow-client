@@ -16,12 +16,13 @@ const QuestionPage = () => {
   const [answerText, setAnswerText] = useState("");
   const [newAnswer, setNewAnswer] = useState(false);
   const { setQuestionsChanged } = useContext(QuestionsContext);
-  let token = localStorage.getItem("token");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchQuestion() {
       const questionFetched = await api.getQuestion(params.id);
       setQuestion(questionFetched);
+      setIsLoading(false);
     }
     setNewAnswer(false);
     fetchQuestion();
@@ -40,48 +41,55 @@ const QuestionPage = () => {
 
   return (
     <div className="main">
-      <div>
-        <h1 className="quest-title">{question.title}</h1>
-        <div className="question-created">
-          Asked {formatDate(question.createdAt)} by {question.createdBy?.email}
-        </div>
-        <hr className="divider"></hr>
-      </div>
-      <p>{question.content}</p>
-      <div className="tags-frame">
-        {question.tags?.map((tag) => (
-          <div key={tag} className="tag">
-            {tag}
-          </div>
-        ))}
-      </div>
-
-      <div>
-        <h2 className="answer">Answers</h2>
-        {question.answers
-          ?.sort((a, b) => {
-            return b.score - a.score;
-          })
-          .map((answer) => (
-            <div key={answer._id}>
-              <QuestionAnswer answer={answer} />
+      {isLoading ? (
+        <h3>Loading Question...</h3>
+      ) : (
+        <>
+          <div>
+            <h1 className="quest-title">{question.title}</h1>
+            <div className="question-created">
+              Asked {formatDate(question.createdAt)} by{" "}
+              {question.createdBy?.email}
             </div>
-          ))}
-        <hr className="divider"></hr>
-        <textarea
-          id="answer-input"
-          className="input-answer"
-          placeholder="Type answer here"
-          onChange={(e) => setAnswerText(e.target.value)}
-        />
-        <button
-          className="btn-answer"
-          type="submit"
-          onClick={answerSubmitHandler}
-        >
-          Answer
-        </button>
-      </div>
+            <hr className="divider"></hr>
+          </div>
+          <p>{question.content}</p>
+          <div className="tags-frame">
+            {question.tags?.map((tag) => (
+              <div key={tag} className="tag">
+                {tag}
+              </div>
+            ))}
+          </div>
+
+          <div>
+            <h2 className="answer">Answers</h2>
+            {question.answers
+              ?.sort((a, b) => {
+                return b.score - a.score;
+              })
+              .map((answer) => (
+                <div key={answer._id}>
+                  <QuestionAnswer answer={answer} />
+                </div>
+              ))}
+            <hr className="divider"></hr>
+            <textarea
+              id="answer-input"
+              className="input-answer"
+              placeholder="Type answer here"
+              onChange={(e) => setAnswerText(e.target.value)}
+            />
+            <button
+              className="btn-answer"
+              type="submit"
+              onClick={answerSubmitHandler}
+            >
+              Answer
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

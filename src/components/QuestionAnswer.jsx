@@ -10,8 +10,13 @@ const QuestionAnswer = (props) => {
 
   const updateScore = (score) => {
     async function addScore() {
-      api.addScore(answer._id, score);
-      setAnswer({ ...answer, score: score });
+      const status = await api.addScore(answer._id, score);
+      console.log(status);
+      if (status === 201) {
+        setAnswer({ ...answer, score: score });
+      } else {
+        alert("You can vote only once");
+      }
     }
     addScore();
   };
