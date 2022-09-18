@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/noam-overflow-client/static/css/main.0774aaf6.css",
+    "main.js": "/noam-overflow-client/static/js/main.03e02afc.js",
+    "static/js/787.e72ed23a.chunk.js": "/noam-overflow-client/static/js/787.e72ed23a.chunk.js",
+    "static/media/x-symbol-svgrepo-com.svg": "/noam-overflow-client/static/media/x-symbol-svgrepo-com.f5457199865cf8c177ab311219383786.svg",
+    "static/media/up-arrow-svgrepo-com.svg": "/noam-overflow-client/static/media/up-arrow-svgrepo-com.034046f1c05b3ea6b052b60ea3a46258.svg",
+    "index.html": "/noam-overflow-client/index.html",
+    "main.0774aaf6.css.map": "/noam-overflow-client/static/css/main.0774aaf6.css.map",
+    "main.03e02afc.js.map": "/noam-overflow-client/static/js/main.03e02afc.js.map",
+    "787.e72ed23a.chunk.js.map": "/noam-overflow-client/static/js/787.e72ed23a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0774aaf6.css",
+    "static/js/main.03e02afc.js"
+  ]
+}
