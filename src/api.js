@@ -1,4 +1,5 @@
 import axios from "axios";
+const serverUrl = "https://noam-overflow-backend.herokuapp.com";
 
 export const createApiClient = () => {
   return {
@@ -6,7 +7,7 @@ export const createApiClient = () => {
       const token = localStorage.getItem("token");
 
       return axios
-        .get(`http://localhost:7000/api/question?filter=${filter || ""}`, {
+        .get(`${serverUrl}/api/question?filter=${filter || ""}`, {
           headers: { Authorization: token },
         })
         .then((res) => res.data);
@@ -14,7 +15,7 @@ export const createApiClient = () => {
     getQuestion: async (id) => {
       const token = localStorage.getItem("token");
       return axios
-        .get(`http://localhost:7000/api/question/${id}`, {
+        .get(`${serverUrl}/api/question/${id}`, {
           headers: { Authorization: token },
         })
         .then((res) => res.data)
@@ -26,7 +27,7 @@ export const createApiClient = () => {
       const token = localStorage.getItem("token");
       return axios
         .post(
-          `http://localhost:7000/api/question`,
+          `${serverUrl}/api/question`,
           {
             content: content,
             title: title,
@@ -43,7 +44,7 @@ export const createApiClient = () => {
       const token = localStorage.getItem("token");
       return axios
         .post(
-          `http://localhost:7000/api/answer`,
+          `${serverUrl}/api/answer`,
           {
             content,
             questionId,
@@ -62,7 +63,7 @@ export const createApiClient = () => {
     },
     loginUser: async (email, password) => {
       return axios
-        .post(`http://localhost:7000/login`, {
+        .post(`${serverUrl}/login`, {
           email,
           password,
         })
@@ -75,7 +76,7 @@ export const createApiClient = () => {
       const token = localStorage.getItem("token");
       return axios
         .post(
-          `http://localhost:7000/api/score`,
+          `${serverUrl}/api/score`,
           {
             answerId,
             newScore,
@@ -91,9 +92,3 @@ export const createApiClient = () => {
     },
   };
 };
-
-// then((response) => {
-//   if (response.status === 200) {
-//     localStorage.setItem("token", response.data.data);
-//   }
-// })

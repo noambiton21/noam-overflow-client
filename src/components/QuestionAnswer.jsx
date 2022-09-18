@@ -3,6 +3,7 @@ import arrow from "../pictures/up-arrow-svgrepo-com.svg";
 import formatDate from "./formatDate";
 import { useState } from "react";
 import { createApiClient } from "../api";
+import Swal from "sweetalert2";
 const api = createApiClient();
 
 const QuestionAnswer = (props) => {
@@ -15,7 +16,11 @@ const QuestionAnswer = (props) => {
       if (status === 201) {
         setAnswer({ ...answer, score: score });
       } else {
-        alert("You can vote only once");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "You can vote only once!",
+        });
       }
     }
     addScore();
